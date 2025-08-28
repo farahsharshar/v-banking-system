@@ -1,62 +1,45 @@
 package com.vbank.logging.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Entity
 @Table(name = "log_entries")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class LogEntry {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
 
-    @Column(nullable = false)
+    @Column(name = "message_type")
     private String messageType;
 
-    @Column(nullable = false)
-    private String endpoint;
-
-    @Column(nullable = false)
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
-    @Column(nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "service_name")
+    private String serviceName;
+
+    @Column(name = "app_name")
+    private String appName;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
-
-    // Constructors
-    public LogEntry() {}
-
-    public LogEntry(String message, String messageType, String endpoint, LocalDateTime dateTime) {
-        this.message = message;
-        this.messageType = messageType;
-        this.endpoint = endpoint;
-        this.dateTime = dateTime;
-    }
-
-    // Getters and Setters
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
-
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
-
-    public String getMessageType() { return messageType; }
-    public void setMessageType(String messageType) { this.messageType = messageType; }
-
-    public String getEndpoint() { return endpoint; }
-    public void setEndpoint(String endpoint) { this.endpoint = endpoint; }
-
-    public LocalDateTime getDateTime() { return dateTime; }
-    public void setDateTime(LocalDateTime dateTime) { this.dateTime = dateTime; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
