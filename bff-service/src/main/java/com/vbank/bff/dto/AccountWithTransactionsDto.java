@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.UUID;
 /**
  * Data Transfer Object for Account information with associated transactions
  * Used in BFF service to aggregate account data with transaction history
@@ -18,7 +18,7 @@ public class AccountWithTransactionsDto {
 
     @JsonProperty("accountId")
     @NotNull(message = "Account ID cannot be null")
-    private String accountId;
+    private UUID accountId;
 
     @JsonProperty("accountNumber")
     @NotNull(message = "Account number cannot be null")
@@ -49,7 +49,7 @@ public class AccountWithTransactionsDto {
     }
 
     // Constructor with all fields
-    public AccountWithTransactionsDto(String accountId, String accountNumber,
+    public AccountWithTransactionsDto(UUID accountId, String accountNumber,
                                       String accountType, BigDecimal balance,
                                       String status, List<TransactionDto> transactions) {
         this.accountId = accountId;
@@ -71,11 +71,11 @@ public class AccountWithTransactionsDto {
     }
 
     // Getters and Setters
-    public String getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
 

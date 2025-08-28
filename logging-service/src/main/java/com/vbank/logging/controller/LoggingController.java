@@ -26,7 +26,7 @@ public class LoggingController {
 
     @GetMapping("/type/{messageType}")
     public ResponseEntity<List<LogEntry>> getLogsByType(@PathVariable String messageType) {
-        List<LogEntry> logs = loggingService.getLogsByType(messageType);
+        List<LogEntry> logs = loggingService.getLogsByMessageType(messageType);
         return ResponseEntity.ok(logs);
     }
 

@@ -2,7 +2,8 @@ package com.vbank.transaction.service;
 
 import com.vbank.transaction.dto.TransactionExecutionDto;
 import com.vbank.transaction.dto.TransactionResponseDto;
-import com.vbank.transaction.model.TransactionInitiationDto;
+import com.vbank.transaction.dto.TransactionInitiationDto;
+import com.vbank.transaction.model.Transaction;
 import com.vbank.transaction.model.Transaction.TransactionStatus;
 import com.vbank.transaction.repository.TransactionRepository;
 import com.vbank.transaction.exception.TransactionNotFoundException;
@@ -43,7 +44,7 @@ public class TransactionService {
 
         Transaction savedTransaction = transactionRepository.save(transaction);
 
-        return new TransactionResponseDto(savedTransaction.getId(), TransactionStatus.INITIATED,
+        return new TransactionResponseDto(savedTransaction.getTransactionId(), TransactionStatus.INITIATED,
                 savedTransaction.getTimestamp());
     }
 
@@ -75,11 +76,11 @@ public class TransactionService {
 
         Transaction updatedTransaction = transactionRepository.save(transaction);
 
-        return new TransactionResponseDto(updatedTransaction.getId(), updatedTransaction.getStatus(),
+        return new TransactionResponseDto(updatedTransaction.getTransactionId(), updatedTransaction.getStatus(),
                 updatedTransaction.getTimestamp());
     }
 
-    public List<TransactionResponseDto> getAccountTransactions(Long accountId) {
+    public List<TransactionResponseDto> getAccountTransactions(UUID accountId) {
         List<Transaction> transactions = transactionRepository.findByAccountId(accountId);
 
         if (transactions.isEmpty()) {
@@ -95,7 +96,7 @@ public class TransactionService {
                     }
 
                     return new TransactionResponseDto(
-                            transaction.getId(),
+                            transaction.getTransactionId(),
                             accountId,
                             transaction.getFromAccountId().equals(accountId) ?
                                     transaction.getToAccountId() : transaction.getFromAccountId(),
