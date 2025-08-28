@@ -1,2 +1,51 @@
 server:
-  port: 8080
+  port: 8084
+
+spring:
+  application:
+    name: bff-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+user:
+  service:
+    url: http://localhost:8081
+
+account:
+  service:
+    url: http://localhost:8082
+
+transaction:
+  service:
+    url: http://localhost:8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+---
+spring:
+  profiles: docker
+  kafka:
+    bootstrap-servers: kafka:29092
+
+user:
+  service:
+    url: http://user-service:8081
+
+account:
+  service:
+    url: http://account-service:8082
+
+transaction:
+  service:
+    url: http://transaction-service:8083
