@@ -1,0 +1,318 @@
+{
+  "info": {
+    "name": "Virtual Banking System APIs",
+    "description": "Complete API collection for testing the Virtual Banking System microservices",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "accountId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "transactionId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "User Service",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john.doe\",\n  \"password\": \"securePassword123\",\n  \"email\": \"john.doe@example.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8081/users/register",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8081",
+              "path": [ "users", "register" ]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john.doe\",\n  \"password\": \"securePassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8081/users/login",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8081",
+              "path": [ "users", "login" ]
+            }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8081/users/{{userId}}/profile",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8081",
+              "path": [ "users", "{{userId}}", "profile" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Account Service",
+      "item": [
+        {
+          "name": "Create Savings Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"accountType\": \"SAVINGS\",\n  \"initialBalance\": 1000.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8082/accounts",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8082",
+              "path": [ "accounts" ]
+            }
+          }
+        },
+        {
+          "name": "Create Checking Account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": {{userId}},\n  \"accountType\": \"CHECKING\",\n  \"initialBalance\": 500.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8082/accounts",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8082",
+              "path": [ "accounts" ]
+            }
+          }
+        },
+        {
+          "name": "Get Account Details",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8082/accounts/{{accountId}}",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8082",
+              "path": [ "accounts", "{{accountId}}" ]
+            }
+          }
+        },
+        {
+          "name": "Get User Accounts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8082/users/{{userId}}/accounts",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8082",
+              "path": [ "users", "{{userId}}", "accounts" ]
+            }
+          }
+        },
+        {
+          "name": "Transfer Funds",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccountId\": 1,\n  \"toAccountId\": 2,\n  \"amount\": 100.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8082/accounts/transfer",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8082",
+              "path": [ "accounts", "transfer" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transaction Service",
+      "item": [
+        {
+          "name": "Initiate Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAccountId\": 1,\n  \"toAccountId\": 2,\n  \"amount\": 50.00,\n  \"description\": \"Transfer to checking account\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8083/transactions/transfer/initiation",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8083",
+              "path": [ "transactions", "transfer", "initiation" ]
+            }
+          }
+        },
+        {
+          "name": "Execute Transfer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionId\": {{transactionId}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}:8083/transactions/transfer/execution",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8083",
+              "path": [ "transactions", "transfer", "execution" ]
+            }
+          }
+        },
+        {
+          "name": "Get Account Transactions",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8083/accounts/{{accountId}}/transactions",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8083",
+              "path": [ "accounts", "{{accountId}}", "transactions" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "BFF Service",
+      "item": [
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8084/bff/dashboard/{{userId}}",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8084",
+              "path": [ "bff", "dashboard", "{{userId}}" ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Logging Service",
+      "item": [
+        {
+          "name": "Get All Logs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8085/logs",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8085",
+              "path": [ "logs" ]
+            }
+          }
+        },
+        {
+          "name": "Get Request Logs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8085/logs/type/Request",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8085",
+              "path": [ "logs", "type", "Request" ]
+            }
+          }
+        },
+        {
+          "name": "Get Response Logs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8085/logs/type/Response",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8085",
+              "path": [ "logs", "type", "Response" ]
+            }
+          }
+        },
+        {
+          "name": "Get Log Count",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}:8085/logs/count",
+              "host": [ "{{baseUrl}}" ],
+              "port": "8085",
+              "path": [ "logs", "count" ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

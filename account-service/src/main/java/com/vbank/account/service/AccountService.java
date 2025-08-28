@@ -66,10 +66,10 @@ public class AccountService {
     }
 
     public String transferFunds(TransferDto transferDto) {
-        Account fromAccount = accountRepository.findById(transferDto.getFromAccountId())
+        Account fromAccount = accountRepository.findById(TransferDto.getFromAccountId())
                 .orElseThrow(() -> new AccountNotFoundException("From account not found."));
 
-        Account toAccount = accountRepository.findById(transferDto.getToAccountId())
+        Account toAccount = accountRepository.findById(TransferDto.getToAccountId())
                 .orElseThrow(() -> new AccountNotFoundException("To account not found."));
 
         // Check sufficient funds

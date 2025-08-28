@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.UUID;
 @RestController
 @RequestMapping("/bff")
 public class BffController {
@@ -21,7 +21,7 @@ public class BffController {
     private LoggingProducer loggingProducer;
 
     @GetMapping("/dashboard/{userId}")
-    public Mono<ResponseEntity<DashboardResponseDto>> getDashboard(@PathVariable Long userId, HttpServletRequest request) {
+    public Mono<ResponseEntity<DashboardResponseDto>> getDashboard(@PathVariable UUID userId, HttpServletRequest request) {
         // Log request
         loggingProducer.logRequest("GET /bff/dashboard/" + userId, "GET /bff/dashboard/{userId}");
 

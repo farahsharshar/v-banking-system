@@ -1,9 +1,9 @@
 package com.vbank.bff.dto;
 
 import java.util.List;
-
+import java.util.UUID;
 public class DashboardResponseDto {
-    private Long userId;
+    private UUID userId;
     private String username;
     private String email;
     private String firstName;
@@ -13,7 +13,7 @@ public class DashboardResponseDto {
     // Constructors
     public DashboardResponseDto() {}
 
-    public DashboardResponseDto(Long userId, String username, String email, String firstName, String lastName,
+    public DashboardResponseDto(UUID userId, String username, String email, String firstName, String lastName,
                                 List<AccountWithTransactionsDto> accounts) {
         this.userId = userId;
         this.username = username;
@@ -24,8 +24,8 @@ public class DashboardResponseDto {
     }
 
     // Getters and Setters
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }

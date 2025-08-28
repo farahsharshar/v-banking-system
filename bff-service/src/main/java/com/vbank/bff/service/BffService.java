@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.util.UUID;
 @Service
 public class BffService {
 
@@ -25,7 +25,7 @@ public class BffService {
     @Autowired
     private TransactionServiceClient transactionServiceClient;
 
-    public Mono<DashboardResponseDto> getDashboard(Long userId) {
+    public Mono<DashboardResponseDto> getDashboard(UUID userId) {
         // Step 1: Get user profile
         Mono<UserProfileDto> userProfileMono = userServiceClient.getUserProfile(userId);
 

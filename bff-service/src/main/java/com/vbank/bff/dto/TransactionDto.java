@@ -2,18 +2,18 @@ package com.vbank.bff.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.UUID;
 public class TransactionDto {
-    private Long transactionId;
+    private UUID transactionId;
     private BigDecimal amount;
-    private Long toAccountId;
+    private UUID toAccountId;
     private String description;
     private LocalDateTime timestamp;
 
     // Constructors
     public TransactionDto() {}
 
-    public TransactionDto(Long transactionId, BigDecimal amount, Long toAccountId, String description, LocalDateTime timestamp) {
+    public TransactionDto(UUID transactionId, BigDecimal amount, UUID toAccountId, String description, LocalDateTime timestamp) {
         this.transactionId = transactionId;
         this.amount = amount;
         this.toAccountId = toAccountId;
@@ -22,14 +22,14 @@ public class TransactionDto {
     }
 
     // Getters and Setters
-    public Long getTransactionId() { return transactionId; }
-    public void setTransactionId(Long transactionId) { this.transactionId = transactionId; }
+    public UUID getTransactionId() { return transactionId; }
+    public void setTransactionId(UUID transactionId) { this.transactionId = transactionId; }
 
     public BigDecimal getAmount() { return amount; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public Long getToAccountId() { return toAccountId; }
-    public void setToAccountId(Long toAccountId) { this.toAccountId = toAccountId; }
+    public UUID getToAccountId() { return toAccountId; }
+    public void setToAccountId(UUID toAccountId) { this.toAccountId = toAccountId; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

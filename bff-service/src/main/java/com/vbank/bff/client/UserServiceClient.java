@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
+import java.util.UUID;
+import com.vbank.bff.dto.UserProfileDto;
 @Service
 public class UserServiceClient {
 
@@ -15,7 +16,7 @@ public class UserServiceClient {
     @Value("${user.service.url:http://localhost:8081}")
     private String userServiceUrl;
 
-    public Mono<UserProfileDto> getUserProfile(Long userId) {
+    public Mono<UserProfileDto> getUserProfile(UUID userId) {
         WebClient webClient = webClientBuilder.baseUrl(userServiceUrl).build();
 
         return webClient.get()

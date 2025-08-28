@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.ArrayList;
-
+import java.util.UUID;
 @Service
 public class TransactionServiceClient {
 
@@ -20,7 +20,7 @@ public class TransactionServiceClient {
     @Value("${transaction.service.url:http://localhost:8083}")
     private String transactionServiceUrl;
 
-    public Mono<List<TransactionDto>> getAccountTransactions(Long accountId) {
+    public Mono<List<TransactionDto>> getAccountTransactions(UUID accountId) {
         WebClient webClient = webClientBuilder.baseUrl(transactionServiceUrl).build();
 
         return webClient.get()

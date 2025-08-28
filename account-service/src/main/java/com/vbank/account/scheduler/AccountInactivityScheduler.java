@@ -20,10 +20,10 @@ public class AccountInactivityScheduler {
     public void inactivateStaleAccounts() {
         List<Account> accounts = accountRepository.findAll();
         for (Account account : accounts) {
-            Instant lastTx = Instant.parse(account.getLastTransactionTimestamp());
+            Instant lastTx = Instant.parse(account.getLastTransactionAt().toString());
             if (account.getStatus().equals("ACTIVE") &&
                     lastTx.isBefore(Instant.now().minus(24, ChronoUnit.HOURS))) {
-                account.setStatus("INACTIVE");
+                account.setStatus(Account.AccountStatus.INACTIVE);
                 accountRepository.save(account);
             }
         }
