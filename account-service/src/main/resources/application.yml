@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8088
 
 spring:
   application:
@@ -39,6 +39,8 @@ management:
 
 ---
 spring:
-  profiles: docker
+  config:
+    activate:
+      on-profile: docker  # ← CORRECTED SYNTAX
   kafka:
     bootstrap-servers: kafka:29092

@@ -21,7 +21,7 @@ public class AccountInactivityScheduler {
         List<Account> accounts = accountRepository.findAll();
         for (Account account : accounts) {
             Instant lastTx = Instant.parse(account.getLastTransactionAt().toString());
-            if (account.getStatus().equals("ACTIVE") &&
+            if (account.getStatus().equals(Account.AccountStatus.ACTIVE) &&
                     lastTx.isBefore(Instant.now().minus(24, ChronoUnit.HOURS))) {
                 account.setStatus(Account.AccountStatus.INACTIVE);
                 accountRepository.save(account);
