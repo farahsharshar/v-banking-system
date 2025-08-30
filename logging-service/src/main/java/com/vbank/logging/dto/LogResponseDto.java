@@ -1,37 +1,27 @@
-package com.vbank.logging.model;
+package com.vbank.logging.dto;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
-@Entity
-@Table(name = "log_entries")
-public class LogEntry {
+/**
+ * DTO for log entry responses
+ */
+public class LogResponseDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
-
-    @Column(name = "message", columnDefinition = "TEXT")
     private String message;
-
-    @Column(name = "message_type", nullable = false)
     private String messageType;
-
-    @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
-
-    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    public LogEntry() {
-        this.createdAt = LocalDateTime.now();
+    public LogResponseDto() {
     }
 
-    public LogEntry(String message, String messageType, LocalDateTime dateTime) {
-        this();
+    public LogResponseDto(UUID id, String message, String messageType, LocalDateTime dateTime, LocalDateTime createdAt) {
+        this.id = id;
         this.message = message;
         this.messageType = messageType;
         this.dateTime = dateTime;
+        this.createdAt = createdAt;
     }
 
     // Getters and Setters
@@ -77,7 +67,7 @@ public class LogEntry {
 
     @Override
     public String toString() {
-        return "LogEntry{" +
+        return "LogResponseDto{" +
                 "id=" + id +
                 ", messageType='" + messageType + '\'' +
                 ", dateTime=" + dateTime +

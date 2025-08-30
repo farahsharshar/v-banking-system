@@ -1,8 +1,6 @@
 package com.vbank.logging.repository;
 
 import com.vbank.logging.model.LogEntry;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,27 +12,40 @@ import java.util.List;
 @Repository
 public interface LogEntryRepository extends JpaRepository<LogEntry, Long> {
 
+    /**
+     * Find log entries by message type
+     */
     List<LogEntry> findByMessageType(String messageType);
 
-    List<LogEntry> findByServiceName(String serviceName);
+    /**
+     * Find log entries within a date range
+     */
+    List<LogEntry> findByDateTimeBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<LogEntry> findByAppName(String appName);
+    /**
+     * Find recent log entries (last N entries)
+     */
+    @Query("SELECT l FROM LogEntry l ORDER BY l.dateTime DESC")
+    List<LogEntry> findRecentLogEntries();
 
-    @Query("SELECT l FROM LogEntry l WHERE l.dateTime BETWEEN :startDate AND :endDate")
-    List<LogEntry> findByDateTimeBetween(@Param("startDate") LocalDateTime startDate,
-                                         @Param("endDate") LocalDateTime endDate);
+    /**
+     * Find log entries by message type within a date range
+     */
+    @Query("SELECT l FROM LogEntry l WHERE l.messageType = :messageType AND l.dateTime BETWEEN :startDate AND :endDate ORDER BY l.dateTime DESC")
+    List<LogEntry> findByMessageTypeAndDateRange(
+            @Param("messageType") String messageType,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 
-    @Query("SELECT l FROM LogEntry l WHERE l.messageType = :messageType AND l.serviceName = :serviceName")
-    List<LogEntry> findByMessageTypeAndServiceName(@Param("messageType") String messageType,
-                                                   @Param("serviceName") String serviceName);
+    /**
+     * Count log entries by message type
+     */
+    long countByMessageType(String messageType);
 
-    Page<LogEntry> findByServiceNameOrderByDateTimeDesc(String serviceName, Pageable pageable);
-
-    Page<LogEntry> findAllByOrderByDateTimeDesc(Pageable pageable);
-
-    @Query("SELECT COUNT(l) FROM LogEntry l WHERE l.messageType = 'Request' AND l.dateTime >= :since")
-    Long countRequestsSince(@Param("since") LocalDateTime since);
-
-    @Query("SELECT COUNT(l) FROM LogEntry l WHERE l.messageType = 'Response' AND l.dateTime >= :since")
-    Long countResponsesSince(@Param("since") LocalDateTime since);
+    /**
+     * Find log entries containing specific text in message
+     */
+    @Query("SELECT l FROM LogEntry l WHERE l.message LIKE %:searchText% ORDER BY l.dateTime DESC")
+    List<LogEntry> findByMessageContaining(@Param("searchText") String searchText);
 }

@@ -3,7 +3,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copy the jar file
-COPY target/logging-service-1.0.0.jar app.jar
+COPY target/logging-service-1.0-SNAPSHOT.jar app.jar
 
 # Expose port
 EXPOSE 8085
