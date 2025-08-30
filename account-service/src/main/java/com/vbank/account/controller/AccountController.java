@@ -29,15 +29,8 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<AccountResponseDto> createAccount(@Valid @RequestBody AccountCreationDto creationDto,
                                                             HttpServletRequest request) {
-        // Log request
-        loggingProducer.logRequest(creationDto.toString(), "POST /accounts");
-
         AccountResponseDto response = accountService.createAccount(creationDto);
-
-        // Log response
-        loggingProducer.logResponse(response.toString(), "POST /accounts");
-
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{accountId}")

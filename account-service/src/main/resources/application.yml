@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8082
 
 spring:
   application:
@@ -16,11 +16,15 @@ spring:
       enabled: true
       path: /h2-console
 
+
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
 
   kafka:
     bootstrap-servers: localhost:9092
@@ -44,3 +48,11 @@ spring:
       on-profile: docker  # ← CORRECTED SYNTAX
   kafka:
     bootstrap-servers: kafka:29092
+
+vbank:
+  kafka:
+    topic: logging-topic
+  scheduling:
+    account-cleanup:
+      enabled: true
+      fixed-rate: 3600000  # 1 hour in milliseconds

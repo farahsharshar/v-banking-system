@@ -36,17 +36,26 @@ public class Account {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @Column(nullable = false)
     private LocalDateTime lastTransactionAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        lastTransactionAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.lastTransactionAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
         if (status == null) {
             status = AccountStatus.ACTIVE;
         }
     }
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
+
 
     public enum AccountType {
         SAVINGS, CHECKING, CURRENT
@@ -73,6 +82,13 @@ public class Account {
 
     public String getAccountNumber() { return accountNumber; }
     public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public UUID getUserId() { return userId; }
     public void setUserId(UUID userId) { this.userId = userId; }
@@ -91,4 +107,14 @@ public class Account {
 
     public LocalDateTime getLastTransactionAt() { return lastTransactionAt; }
     public void setLastTransactionAt(LocalDateTime lastTransactionAt) { this.lastTransactionAt = lastTransactionAt; }
+    public void updateBalance(BigDecimal newBalance) {
+        this.balance = newBalance;
+        this.lastTransactionAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public boolean isStale() {
+        return lastTransactionAt != null &&
+                lastTransactionAt.isBefore(LocalDateTime.now().minusDays(1));
+    }
 }

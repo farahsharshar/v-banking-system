@@ -93,16 +93,24 @@ public class AccountService {
     @Scheduled(fixedRate = 3600000) // Run every hour (3600000 ms)
     public void inactivateStaleAccounts() {
         LocalDateTime threshold = LocalDateTime.now().minusHours(24);
-        List<Account> staleAccounts = accountRepository.findStaleAccounts(AccountStatus.ACTIVE, threshold);
 
-        for (Account account : staleAccounts) {
-            account.setStatus(AccountStatus.INACTIVE);
-            accountRepository.save(account);
+        List<Account> allAccounts = accountRepository.findAll();
+        System.out.println("Total accounts in database: " + allAccounts.size());
+
+        // Get active accounts
+        List<Account> activeAccounts = allAccounts.stream()
+                .filter(acc -> acc.getStatus() == Account.AccountStatus.ACTIVE)
+                .collect(Collectors.toList());
+
+        for (Account acc : activeAccounts) {
+            LocalDateTime lastTxDate = acc.getLastTransactionAt();
+            if (lastTxDate.isBefore(threshold)) {
+              acc.setStatus(Account.AccountStatus.INACTIVE);
+                accountRepository.save(acc);
+            }
+
         }
 
-        if (!staleAccounts.isEmpty()) {
-            System.out.println("Inactivated " + staleAccounts.size() + " stale accounts");
-        }
     }
 
     private String generateAccountNumber() {
