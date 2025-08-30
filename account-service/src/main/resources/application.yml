@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: account-service
+  aop:
+    auto: true
+    proxy-target-class: true
 
   datasource:
     url: jdbc:h2:mem:accountdb
@@ -20,11 +23,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.H2Dialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
 
   kafka:
     bootstrap-servers: localhost:9092

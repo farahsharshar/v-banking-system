@@ -12,6 +12,7 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id",unique = true,updatable = false, nullable = false)
     private UUID id;
 
     @Column(unique = true, nullable = false)

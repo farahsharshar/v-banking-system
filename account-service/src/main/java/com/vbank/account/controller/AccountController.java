@@ -27,14 +27,21 @@ public class AccountController {
     private LoggingProducer loggingProducer;
 
     @PostMapping
-    public ResponseEntity<AccountResponseDto> createAccount(@Valid @RequestBody AccountCreationDto creationDto,
-                                                            HttpServletRequest request) {
+    public ResponseEntity<AccountResponseDto> createAccount(@Valid @RequestBody AccountCreationDto creationDto
+                                                           ) {
+        // Log request
+        loggingProducer.logRequest(creationDto.toString(), "POST /accounts");
+
         AccountResponseDto response = accountService.createAccount(creationDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        // Log response
+        loggingProducer.logResponse(response.toString(), "POST /accounts");
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountResponseDto> getAccount(@PathVariable UUID accountId, HttpServletRequest request) {
+    public ResponseEntity<AccountResponseDto> getAccount(@PathVariable UUID accountId) {
         // Log request
         loggingProducer.logRequest("GET /accounts/" + accountId, "GET /accounts/{accountId}");
 
@@ -47,8 +54,7 @@ public class AccountController {
     }
 
     @GetMapping("/users/{userId}/accounts")
-    public ResponseEntity<List<AccountResponseDto>> getUserAccounts(@PathVariable UUID userId,
-                                                                    HttpServletRequest request) {
+    public ResponseEntity<List<AccountResponseDto>> getUserAccounts(@PathVariable UUID userId) {
         // Log request
         loggingProducer.logRequest("GET /users/" + userId + "/accounts", "GET /users/{userId}/accounts");
 
@@ -61,8 +67,7 @@ public class AccountController {
     }
 
     @PutMapping("/transfer")
-    public ResponseEntity<Map<String, String>> transferFunds(@Valid @RequestBody TransferDto transferDto,
-                                                             HttpServletRequest request) {
+    public ResponseEntity<Map<String, String>> transferFunds(@Valid @RequestBody TransferDto transferDto) {
         // Log request
         loggingProducer.logRequest(transferDto.toString(), "PUT /accounts/transfer");
 
